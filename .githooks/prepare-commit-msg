@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby;C:/Ruby30-x64/bin/ruby.exe
+$regex = /[\w\s\S]+ \[ref: \d+\]/
+$stdin = ARGV[0].split("] ")[1]
+
+# Simple function, just for ease of testing
+def parse_message(msg,re)
+  if not re.match(msg)
+    return false
+  else 
+    return true
+  end
+end
+
+# enforced custom commit message format
+def check_message_format
+  if not parse_message($stdin,$regex)
+    STDERR.puts "[git-hook] Your commit was rejected."
+    STDERR.puts "[git-hook] Did you forget a ticket reference?"      
+    exit 1
+  end  
+end
+
+=begin if __FILE__ == $0
+  check_message_format
+end =end
